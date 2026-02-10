@@ -1,5 +1,3 @@
-'use client';
-
 import { Plus, Trash2, BookOpen } from 'lucide-react';
 import { InputField, ImageUploadField } from '../FormFields';
 

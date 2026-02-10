@@ -1,8 +1,6 @@
-'use client';
-
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '../Button';
-import type { SiteContent, Language } from '@/types/content';
+import type { SiteContent, Language } from '../../App';
 
 interface PrivacyPolicyPageProps {
   content: SiteContent;

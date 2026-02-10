@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { ContentBlock, blockTemplates, BlockType } from '../../types/blocks';
 import { BlockEditor } from './BlockEditor';

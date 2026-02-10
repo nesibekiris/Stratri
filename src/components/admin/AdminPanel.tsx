@@ -1,8 +1,6 @@
-'use client';
-
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, Save, X, Plus, Trash2, Settings, Layout } from 'lucide-react';
-import type { SiteContent } from '@/types/content';
+import type { SiteContent } from '../../App';
 import { PageBuilder } from './PageBuilder';
 import { ContentBlock } from '../../types/blocks';
 

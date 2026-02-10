@@ -1,5 +1,3 @@
-'use client';
-
 import { Palette } from 'lucide-react';
 import { ColorField } from '../FormFields';
 

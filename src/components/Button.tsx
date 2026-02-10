@@ -1,18 +1,14 @@
-'use client';
-
 import { ReactNode } from 'react';
-import Link from 'next/link';
 
-export interface ButtonProps {
+interface ButtonProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'outline';
   href?: string;
   onClick?: () => void;
   className?: string;
-  style?: React.CSSProperties;
 }
 
-export function Button({ children, variant = 'primary', href, onClick, className = '', style }: ButtonProps) {
+export function Button({ children, variant = 'primary', href, onClick, className = '' }: ButtonProps) {
   const baseStyles = 'touch-target inline-block px-8 py-3.5 font-sans font-medium text-sm transition-all duration-200 rounded-sm cursor-pointer select-none focus-visible-ring';
 
   const variants = {
@@ -23,36 +19,27 @@ export function Button({ children, variant = 'primary', href, onClick, className
 
   const styles = `${baseStyles} ${variants[variant]} ${className}`;
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:')) {
+      // Internal route - prevent default and use pushState
+      e.preventDefault();
+      window.history.pushState({}, '', href);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    // For external links, hash links, and mailto links, let default behavior happen
+  };
+
   if (href) {
-    const isExternal = href.startsWith('http') || href.startsWith('mailto:');
-    const isHash = href.startsWith('#');
-
-    if (isExternal) {
-      return (
-        <a href={href} className={styles} style={style} target="_blank" rel="noopener noreferrer">
-          {children}
-        </a>
-      );
-    }
-
-    if (isHash) {
-      return (
-        <a href={href} className={styles} style={style}>
-          {children}
-        </a>
-      );
-    }
-
-    // Internal route - use Next.js Link for client-side navigation
     return (
-      <Link href={href} className={styles} style={style}>
+      <a href={href} className={styles} onClick={handleClick}>
         {children}
-      </Link>
+      </a>
     );
   }
 
   return (
-    <button onClick={onClick} className={styles} style={style}>
+    <button onClick={onClick} className={styles}>
       {children}
     </button>
   );

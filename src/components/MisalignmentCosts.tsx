@@ -1,5 +1,3 @@
-'use client';
-
 import { motion } from 'motion/react';
 import { useState, useEffect, useRef } from 'react';
 import { prefersReducedMotion, durations, stagger } from '../utils/motion';

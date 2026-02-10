@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { UserPlus, Trash2, Mail, AlertCircle, CheckCircle, Shield } from 'lucide-react';
 import { projectId, publicAnonKey } from '../../../utils/supabase/info';

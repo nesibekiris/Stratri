@@ -1,8 +1,6 @@
-'use client';
-
 import { useState } from 'react';
 import { Menu, X, BookOpen, Linkedin, Mail } from 'lucide-react';
-import type { SiteContent } from '@/types/content';
+import type { SiteContent } from '../App';
 import { TechnologyIcon, PolicyIcon, SocietyIcon, StrategyIcon, GovernanceIcon, ResearchIcon, PolicyAffairsIcon } from './Icons';
 import { Button } from './Button';
 import { PillarCard, InsightCard } from './Card';

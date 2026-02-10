@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { Upload, Trash2, Copy, Check, Search, Image as ImageIcon } from 'lucide-react';
 

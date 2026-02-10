@@ -1,4 +1,4 @@
-import type { Language } from '@/types/content';
+import type { Language } from '../App';
 
 export interface SEOMetadata {
   title: {

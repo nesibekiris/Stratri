@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { Plus, X, Search, Layout, Type, Image, Quote, Mail, BookOpen, Users, Layers } from 'lucide-react';
 import { BlockType, blockTemplates, blockLabels, ContentBlock } from '../../types/blocks';

@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { X, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
 import { ContentBlock } from '../../types/blocks';

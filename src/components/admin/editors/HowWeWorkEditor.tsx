@@ -1,5 +1,3 @@
-'use client';
-
 import { Workflow } from 'lucide-react';
 import { InputField, TextareaField, ImageUploadField } from '../FormFields';
 

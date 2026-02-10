@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { X, Cookie } from 'lucide-react';
 import { Button } from './Button';
@@ -113,16 +111,16 @@ export function CookieConsent({ colors = {
           >
             We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. 
             You can choose which cookies to accept. Read our{' '}
-            <a
-              href="/privacy-policy"
+            <a 
+              href="/privacy" 
               className="underline hover:no-underline font-medium"
               style={{ color: colors.accent }}
             >
               Privacy Policy
             </a>
             {' '}and{' '}
-            <a
-              href="/cookie-policy"
+            <a 
+              href="/cookies" 
               className="underline hover:no-underline font-medium"
               style={{ color: colors.accent }}
             >
