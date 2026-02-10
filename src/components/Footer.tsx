@@ -185,18 +185,15 @@ export function Footer() {
                 © {currentYear} STRATRI. All rights reserved.
               </p>
               <div className="flex items-center gap-6 text-xs text-stratri-dark/50 font-sans">
-                <button
-                  onClick={() => window.history.pushState({}, '', '/privacy'); window.location.pathname = '/privacy';}
-                  className="hover:text-stratri-accent transition-colors"
-                >
+                <Link to="/privacy" className="hover:text-stratri-accent transition-colors">
                   Privacy Policy
-                </button>
-                <button
-                  onClick={() => window.history.pushState({}, '', '/cookies'); window.location.pathname = '/cookies';}
-                  className="hover:text-stratri-accent transition-colors"
-                >
+                </Link>
+                <Link to="/terms" className="hover:text-stratri-accent transition-colors">
+                  Terms
+                </Link>
+                <Link to="/cookies" className="hover:text-stratri-accent transition-colors">
                   Cookie Policy
-                </button>
+                </Link>
               </div>
             </div>
           </div>
