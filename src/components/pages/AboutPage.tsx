@@ -1,4 +1,4 @@
-import type { SiteContent } from '../../App';
+import type { SiteContent, Language } from '../../App';
 import { Button } from '../Button';
 import { 
   ConvergingPaths, 
@@ -9,31 +9,35 @@ import {
   LensIcon,
   BookIcon
 } from '../visuals';
+import { t, contentTranslations } from '../../utils/translations';
 
 interface AboutPageProps {
   content: SiteContent;
+  language: Language;
 }
 
-export function AboutPage({ content }: AboutPageProps) {
+export function AboutPage({ content, language }: AboutPageProps) {
+  const aboutContent = contentTranslations.about;
+  
   const principles = [
     {
-      title: 'Technology, Society, Policy',
-      description: 'We work where these three forces converge. Sustainable technology strategy means navigating technical capability, societal impact, and policy constraints with equal rigor. None of them can be an afterthought.',
+      title: t(aboutContent.principles[0].title, language),
+      description: t(aboutContent.principles[0].description, language),
       icon: NetworkIcon
     },
     {
-      title: 'Governance as strategy',
-      description: 'Responsible technology governance is not a compliance burden. It is a strategic advantage. Organizations that govern well move faster, with greater confidence and fewer surprises.',
+      title: t(aboutContent.principles[1].title, language),
+      description: t(aboutContent.principles[1].description, language),
       icon: ShieldIcon
     },
     {
-      title: 'Depth over hype',
-      description: 'We prioritize nuance and long-term thinking over trends and buzzwords. Turning complexity into clarity requires deep understanding, not shallow excitement.',
+      title: t(aboutContent.principles[2].title, language),
+      description: t(aboutContent.principles[2].description, language),
       icon: LensIcon
     },
     {
-      title: 'Literacy as foundation',
-      description: 'Technology literacy is how leaders and teams gain real agency. Without shared understanding across the organization, there is no meaningful governance, no clear accountability, and no strategic clarity.',
+      title: t(aboutContent.principles[3].title, language),
+      description: t(aboutContent.principles[3].description, language),
       icon: BookIcon
     }
   ];
@@ -47,183 +51,52 @@ export function AboutPage({ content }: AboutPageProps) {
             {/* Copy */}
             <div>
               <h1 className="font-serif text-5xl sm:text-6xl font-medium mb-6 tracking-tight" style={{ color: content.colors.dark, letterSpacing: '-0.05em' }}>
-                Who We Are
+                {t(aboutContent.pageTitle, language)}
               </h1>
               <p className="font-serif text-2xl italic mb-6" style={{ color: content.colors.accent }}>
-                Strategy at the intersection
+                {t(aboutContent.tagline, language)}
               </p>
               <p className="font-sans text-lg leading-relaxed mb-4" style={{ color: `${content.colors.dark}B3` }}>
-                <strong className="font-bold">STRATRI</strong> is a governance and technology policy studio built on a simple belief: governance belongs at the center of strategy, not at the edges of compliance.
+                <strong className="font-bold">STRATRI</strong> {t(aboutContent.intro1, language).replace('STRATRI is a ', '').replace('STRATRI, ', '')}
               </p>
               <p className="font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
-                The name brings together "strategy" and a triadic way of thinking. We look at every problem through the coordinated movement of three forces: Technology, Society, and Policy.
+                {t(aboutContent.intro2, language)}
               </p>
             </div>
-            
+
             {/* Visual */}
-            <div className="flex items-center justify-center">
-              <ConvergingPaths className="w-full max-w-md" />
+            <div className="flex justify-center items-center">
+              <div className="w-full max-w-md">
+                <TriviumDiagram className="w-full h-auto" />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 2 - The Trivium */}
-      <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: content.colors.cream, borderColor: '#E8E4DF' }}>
+      {/* Section 2 - Principles */}
+      <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: '#FFFFFF', borderColor: '#E8E4DF' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Visual (on left) */}
-            <div className="flex items-center justify-center lg:order-1">
-              <TriviumDiagram className="w-full max-w-sm" />
-            </div>
-            
-            {/* Copy (on right) */}
-            <div className="lg:order-2">
-              <h2 className="font-serif text-4xl font-medium mb-6" style={{ color: content.colors.dark }}>
-                The Trivium
-              </h2>
-              <p className="font-sans text-lg leading-relaxed mb-4" style={{ color: `${content.colors.dark}B3` }}>
-                At the core of <strong className="font-bold">STRATRI</strong> is a three-pillar lens. We see Technology, Society, and Policy not as three separate checklists, but as a trivium: three intersecting paths that shape how technology is imagined, built, and governed.
-              </p>
-              <p className="font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
-                Like the classical trivium in education (grammar, logic, rhetoric) that structured how people learned to think, our trivium structures how organizations learn to govern technology. The point is not to pick one road. It is to design the relationship between all three.
-              </p>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl sm:text-5xl font-medium mb-4 tracking-tight" style={{ color: content.colors.dark, letterSpacing: '-0.05em' }}>
+              {t(aboutContent.principlesTitle, language)}
+            </h2>
           </div>
-        </div>
-      </section>
 
-      {/* Section 3 - Why STRATRI Exists - DARK POLICY BAND */}
-      <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: '#1E2A45', borderColor: '#14202F' }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          {/* Optional "Why now" badge */}
-          <div className="text-center mb-6">
-            <span 
-              className="inline-block px-3 py-1 rounded-sm text-xs font-sans font-semibold uppercase tracking-wider"
-              style={{ 
-                backgroundColor: '#9FB7C820',
-                color: '#9FB7C8',
-                border: '1px solid #9FB7C8'
-              }}
-            >
-              Why now
-            </span>
-          </div>
-          
-          <h2 className="font-serif text-4xl font-medium mb-6 text-center" style={{ color: '#FEFBF8' }}>
-            Why <strong className="font-bold">STRATRI</strong> Exists
-          </h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Copy (on left) */}
-            <div className="space-y-6">
-              <p className="font-sans text-lg leading-relaxed" style={{ color: '#FEFBF8E6' }}>
-                Most organizations experience these forces as tension: innovation vs. regulation, scale vs. risk, speed vs. responsibility. <strong className="font-bold" style={{ color: '#FEFBF8' }}>STRATRI</strong> was created to flip that script.
-              </p>
-              <p className="font-sans text-lg leading-relaxed" style={{ color: '#FEFBF8E6' }}>
-                We treat governance, ethics, and policy as strategic infrastructure. Not barriers that slow you down, but rails that let you move quickly and safely over time, across markets and jurisdictions. In this view, the trivium is not abstract theory. It is how you decide which systems to build, where to deploy them, how to explain them, and what you are willing to walk away from.
-              </p>
-            </div>
-            
-            {/* Mini rails visual (on right) */}
-            <div className="flex items-center justify-center">
-              <GovernanceRails className="w-full max-w-md" lightMode />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 4 - Our Team */}
-      <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: content.colors.cream, borderColor: '#E8E4DF' }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          <h2 className="font-serif text-4xl font-medium mb-6" style={{ color: content.colors.dark }}>
-            Our Team
-          </h2>
-          <p className="font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
-            <strong className="font-bold">STRATRI</strong> is a multidisciplinary team. We have experts in technology governance and policy strategy, data scientists, machine learning engineers, and social impact advisors. This combination allows us to work across the full landscape: from technical implementation to policy strategy to societal outcomes.
-          </p>
-        </div>
-      </section>
-
-      {/* Section 5 - Who We Work With */}
-      <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: content.colors.cream, borderColor: '#E8E4DF' }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          <h2 className="font-serif text-4xl font-medium mb-6" style={{ color: content.colors.dark }}>
-            Who We Work With
-          </h2>
-          <div className="space-y-4 font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
-            <p>
-              We advise leading companies in blockchain, retail, fintech, and healthcare on governance, policy, and responsible technology strategy.
-            </p>
-            <p>
-              We also work with technology startups and scaleups navigating growth and regulation, venture capital firms building governance perspectives into their investment approach, and think tanks shaping the policy conversations that define the rules of the game.
-            </p>
-            <p>
-              Our clients share one thing: they operate where technology, policy, and society intersect, and they want to do it well.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 6 - Founder */}
-      <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: content.colors.cream, borderColor: '#E8E4DF' }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          <h2 className="font-serif text-4xl font-medium mb-4" style={{ color: content.colors.dark }}>
-            Founder
-          </h2>
-          <h3 className="font-serif text-2xl font-medium mb-8" style={{ color: content.colors.accent }}>
-            Nesibe Kırış Can
-          </h3>
-          
-          <div className="space-y-6 text-base font-sans leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
-            <p>
-              Consultant and researcher specializing in technology governance, public policy, and responsible innovation. Currently Responsible AI Consultant at Pandora and Research Fellow contributing to global work on democratic governance and digital policy.
-            </p>
-            
-            <p>
-              Co-author of the CAIDP AI Governance Index, the HUX AI ISO 42001 Implementation Report, and Gov2AI's civil society AI literacy study in Türkiye. Founder of TechLetter, a technology policy newsletter with 8,100+ readers in 65+ countries.
-            </p>
-            
-            <p>
-              Previously Government Affairs Director at AmCham Türkiye, representing 140+ global firms on technology policy. Earlier roles include Corporate and Public Affairs Lead at Istanbul's first Web3 hub and regulatory consultant at Ussal Consultancy.
-            </p>
-            
-            <p>
-              Delivers executive training on technology ethics and governance. Regular speaker and commentator in global and local media, including Harvard Business Review Türkiye, CoinDesk, Bloomberg, and CNBC-e.
-            </p>
-            
-            <p>
-              <strong style={{ color: content.colors.dark }}>Credentials:</strong> Certified AI Governance Professional (IAPP). Executive programs at Oxford Saïd Business School, Anthropic, the Alan Turing Institute, and BlueDot Impact. LL.B. and B.A. Sociology, Koç University.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 7 - Our Principles */}
-      <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: content.colors.cream, borderColor: '#E8E4DF' }}>
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <h2 className="font-serif text-4xl font-medium mb-12 text-center" style={{ color: content.colors.dark }}>
-            Our Principles
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {principles.map((principle, index) => {
-              const IconComponent = principle.icon;
+              const Icon = principle.icon;
               return (
-                <div key={index} className="bg-white border border-gray-200 rounded-sm p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 mt-1" style={{ color: content.colors.accent }}>
-                      <IconComponent className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-serif text-xl font-medium mb-3" style={{ color: content.colors.dark }}>
-                        {principle.title}
-                      </h3>
-                      <p className="font-sans text-base leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
-                        {principle.description}
-                      </p>
-                    </div>
+                <div key={index} className="bg-white border rounded-sm p-8" style={{ borderColor: '#E8E4DF' }}>
+                  <div className="w-16 h-16 mb-6">
+                    <Icon className="w-full h-full" color={content.colors.accent} />
                   </div>
+                  <h3 className="font-serif text-2xl font-medium mb-4" style={{ color: content.colors.dark }}>
+                    {principle.title}
+                  </h3>
+                  <p className="font-sans leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
+                    {principle.description}
+                  </p>
                 </div>
               );
             })}
@@ -231,19 +104,71 @@ export function AboutPage({ content }: AboutPageProps) {
         </div>
       </section>
 
-      {/* Section 8 - Work with STRATRI */}
+      {/* Section 3 - How We Navigate */}
       <section className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: content.colors.cream, borderColor: '#E8E4DF' }}>
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="font-serif text-4xl font-medium mb-6" style={{ color: content.colors.dark }}>
-            Work with <strong className="font-bold">STRATRI</strong>
-          </h2>
-          <p className="font-sans text-lg leading-relaxed mb-4" style={{ color: `${content.colors.dark}B3` }}>
-            Whether you need strategic advisory, governance design, research, or training, we would like to hear from you.
-          </p>
-          <p className="font-sans text-lg leading-relaxed mb-8" style={{ color: `${content.colors.dark}B3` }}>
-            Let's explore how <strong className="font-bold">STRATRI</strong> can support your organization at the intersection of technology, society, and policy.
-          </p>
-          <Button href="/connect">Get in touch</Button>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Visual */}
+            <div className="flex justify-center items-center order-2 lg:order-1">
+              <div className="w-full max-w-md">
+                <GovernanceRails className="w-full h-auto" />
+              </div>
+            </div>
+
+            {/* Copy */}
+            <div className="order-1 lg:order-2">
+              <h2 className="font-serif text-4xl sm:text-5xl font-medium mb-6 tracking-tight" style={{ color: content.colors.dark, letterSpacing: '-0.05em' }}>
+                {language === 'tr' ? 'Nasıl yol gösteriyoruz' : 'How we navigate the crossroads'}
+              </h2>
+              <div className="space-y-4">
+                <p className="font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
+                  {language === 'tr' 
+                    ? 'Teknoloji ve toplum arasındaki kesişim karmaşıktır. Çoğu organizasyon ya yalnızca inovasyon üzerine odaklanır, ya sadece uyum üzerine, ya da bunlar arasında bağlantısız bir şekilde geçiş yapar.'
+                    : 'The intersection between technology and society is complex. Most organizations either focus only on innovation, only on compliance, or switch between them without coherence.'}
+                </p>
+                <p className="font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
+                  {language === 'tr'
+                    ? 'STRATRI yönetişimi strateji olarak konumlandırır. Düzenlemenin, etik standartların ve kamu güveninin sadece riskler değil, aynı zamanda rekabet avantajları olduğuna inanıyoruz.'
+                    : 'STRATRI positions governance as strategy. We believe regulation, ethical standards, and public trust are not just risks—they are competitive advantages.'}
+                </p>
+                <p className="font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
+                  {language === 'tr'
+                    ? 'Değerlendirme, politika tasarımı, eğitim ve paydaş katılımı aracılığıyla organizasyonlara teknoloji, toplum ve politikanın üç yolunu eşzamanlı ve sürdürülebilir bir şekilde yönetmelerine yardımcı oluyoruz.'
+                    : 'Through assessments, policy design, training, and stakeholder engagement, we help organizations navigate the three roads of technology, society, and policy—simultaneously and sustainably.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 4 - Managing Partner */}
+      <section id="partner" className="py-16 sm:py-20 lg:py-24 border-t" style={{ backgroundColor: '#FFFFFF', borderColor: '#E8E4DF' }}>
+        <div className="max-w-5xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-serif text-4xl sm:text-5xl font-medium mb-4 tracking-tight" style={{ color: content.colors.dark, letterSpacing: '-0.05em' }}>
+              {t(aboutContent.founderTitle, language)}
+            </h2>
+          </div>
+
+          <div className="bg-white border rounded-sm p-8 lg:p-12" style={{ borderColor: '#E8E4DF' }}>
+            <h3 className="font-serif text-3xl font-medium mb-2" style={{ color: content.colors.dark }}>
+              {t(aboutContent.founderName, language)}
+            </h3>
+            <p className="text-sm font-sans mb-6" style={{ color: content.colors.accent }}>
+              {language === 'tr' ? 'Kurucu Ortak & Baş Danışman' : 'Founding Partner & Principal Consultant'}
+            </p>
+            
+            <p className="font-sans text-lg leading-relaxed" style={{ color: `${content.colors.dark}B3` }}>
+              {t(aboutContent.founderBio, language)}
+            </p>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button href="/connect">
+              {language === 'tr' ? 'İletişime geçin' : 'Get in touch'}
+            </Button>
+          </div>
         </div>
       </section>
     </>

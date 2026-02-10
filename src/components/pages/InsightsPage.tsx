@@ -527,6 +527,55 @@ export function InsightsPage({ content }: InsightsPageProps) {
     'Videos': 'Videos'
   };
 
+  // Helper function to parse dates
+  const parseDate = (dateStr: string): Date => {
+    // Month mapping for both English and Turkish
+    const monthMap: any = {
+      'january': 0, 'ocak': 0,
+      'february': 1, 'şubat': 1,
+      'march': 2, 'mart': 2,
+      'april': 3, 'nisan': 3,
+      'may': 4, 'mayıs': 4,
+      'june': 5, 'haziran': 5,
+      'july': 6, 'temmuz': 6,
+      'august': 7, 'ağustos': 7,
+      'september': 8, 'eylül': 8,
+      'october': 9, 'ekim': 9,
+      'november': 10, 'kasım': 10,
+      'december': 11, 'aralık': 11
+    };
+
+    const normalized = dateStr.toLowerCase().trim();
+    
+    // Check if it's just a year
+    const yearOnly = normalized.match(/^\d{4}$/);
+    if (yearOnly) {
+      return new Date(parseInt(yearOnly[0]), 0, 1);
+    }
+    
+    // Check for "Month YYYY" or "Month DD, YYYY" format
+    const parts = normalized.split(' ');
+    if (parts.length >= 2) {
+      const monthStr = parts[0].replace(',', '');
+      const month = monthMap[monthStr];
+      
+      if (month !== undefined) {
+        // Get year (last part that's a number)
+        const yearPart = parts.find(p => /^\d{4}$/.test(p));
+        const year = yearPart ? parseInt(yearPart) : new Date().getFullYear();
+        
+        // Get day if exists
+        const dayPart = parts.find(p => /^\d{1,2},?$/.test(p));
+        const day = dayPart ? parseInt(dayPart.replace(',', '')) : 1;
+        
+        return new Date(year, month, day);
+      }
+    }
+    
+    // Default fallback
+    return new Date(0);
+  };
+
   const filteredInsights = activeFilter === 'All' 
     ? allInsights 
     : allInsights.filter(insight => {
@@ -544,6 +593,13 @@ export function InsightsPage({ content }: InsightsPageProps) {
         return insight.category === filterKey;
       });
 
+  // Sort insights by date (newest first)
+  const sortedInsights = [...filteredInsights].sort((a, b) => {
+    const dateA = parseDate(a.date);
+    const dateB = parseDate(b.date);
+    return dateB.getTime() - dateA.getTime();
+  });
+
   return (
     <>
       {/* Hero Section */}
@@ -551,8 +607,79 @@ export function InsightsPage({ content }: InsightsPageProps) {
         className="relative py-16 sm:py-20 lg:py-24 overflow-hidden" 
         style={{ backgroundColor: content.colors.cream }}
       >
-        <div className="absolute inset-0 pointer-events-none" style={{ opacity: 0.35 }}>
-          <InsightsHeroInk animate={true} className="w-full h-full" />
+        {/* Animated geometric background layers */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Tech grid pattern - more visible */}
+          <div 
+            className="absolute inset-0 opacity-[0.08]"
+            style={{
+              backgroundImage: `linear-gradient(${content.colors.dark} 1px, transparent 1px), linear-gradient(90deg, ${content.colors.dark} 1px, transparent 1px)`,
+              backgroundSize: '60px 60px'
+            }}
+          />
+          
+          {/* Circuit board inspired lines - policy structure */}
+          <div className="absolute inset-0 opacity-[0.06]">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="circuit" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 20 40 M 40 20 L 80 20 M 80 0 L 80 60 M 100 40 L 140 40 M 140 20 L 140 80" 
+                    stroke={content.colors.accent} 
+                    strokeWidth="0.5" 
+                    fill="none" 
+                  />
+                  <circle cx="20" cy="40" r="2" fill={content.colors.accent} />
+                  <circle cx="80" cy="20" r="2" fill={content.colors.accent} />
+                  <circle cx="140" cy="40" r="2" fill={content.colors.accent} />
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#circuit)" />
+            </svg>
+          </div>
+          
+          {/* AI neural network connections */}
+          <div className="absolute inset-0 opacity-[0.12]">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              {/* Nodes */}
+              <circle cx="15%" cy="30%" r="3" fill={content.colors.dark} opacity="0.3" />
+              <circle cx="25%" cy="50%" r="3" fill={content.colors.dark} opacity="0.3" />
+              <circle cx="35%" cy="35%" r="3" fill={content.colors.dark} opacity="0.3" />
+              <circle cx="75%" cy="40%" r="3" fill={content.colors.accent} opacity="0.3" />
+              <circle cx="85%" cy="60%" r="3" fill={content.colors.accent} opacity="0.3" />
+              <circle cx="65%" cy="55%" r="3" fill={content.colors.accent} opacity="0.3" />
+              
+              {/* Connections */}
+              <line x1="15%" y1="30%" x2="25%" y2="50%" stroke={content.colors.dark} strokeWidth="0.5" opacity="0.2" />
+              <line x1="25%" y1="50%" x2="35%" y2="35%" stroke={content.colors.dark} strokeWidth="0.5" opacity="0.2" />
+              <line x1="35%" y1="35%" x2="65%" y2="55%" stroke={content.colors.accent} strokeWidth="0.5" opacity="0.2" />
+              <line x1="75%" y1="40%" x2="85%" y2="60%" stroke={content.colors.accent} strokeWidth="0.5" opacity="0.2" />
+              <line x1="65%" y1="55%" x2="85%" y2="60%" stroke={content.colors.accent} strokeWidth="0.5" opacity="0.2" />
+            </svg>
+          </div>
+          
+          {/* Policy document/layers visualization */}
+          <div className="absolute right-0 top-1/4 w-1/3 h-1/2 opacity-[0.04]">
+            <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="30" width="140" height="2" fill={content.colors.dark} />
+              <rect x="20" y="45" width="120" height="2" fill={content.colors.dark} />
+              <rect x="20" y="60" width="130" height="2" fill={content.colors.dark} />
+              <rect x="20" y="85" width="140" height="2" fill={content.colors.accent} />
+              <rect x="20" y="100" width="110" height="2" fill={content.colors.accent} />
+              <rect x="20" y="115" width="125" height="2" fill={content.colors.accent} />
+              <rect x="20" y="140" width="135" height="2" fill={content.colors.dark} />
+              <rect x="20" y="155" width="115" height="2" fill={content.colors.dark} />
+            </svg>
+          </div>
+          
+          {/* Data nodes - AI theme */}
+          <div className="absolute left-0 bottom-1/4 w-1/4 h-1/3 opacity-[0.05]">
+            <svg width="100%" height="100%" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="15" fill="none" stroke={content.colors.dark} strokeWidth="1" />
+              <circle cx="90" cy="50" r="20" fill="none" stroke={content.colors.accent} strokeWidth="1" />
+              <circle cx="60" cy="90" r="12" fill="none" stroke={content.colors.dark} strokeWidth="1" />
+              <circle cx="110" cy="110" r="18" fill="none" stroke={content.colors.accent} strokeWidth="1" />
+            </svg>
+          </div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
@@ -607,7 +734,7 @@ export function InsightsPage({ content }: InsightsPageProps) {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredInsights.map((insight, index) => (
+            {sortedInsights.map((insight, index) => (
               <article 
                 key={index}
                 className="bg-white border border-gray-200 rounded-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"

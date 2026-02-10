@@ -9,6 +9,14 @@ import { ConnectPage } from './pages/ConnectPage';
 import { HomePage } from './pages/HomePage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { CookiePolicyPage } from './pages/CookiePolicyPage';
+import { AI4EveryonePage } from './pages/programs/AI4EveryonePage';
+import { AI4BusinessEthicsPage } from './pages/programs/AI4BusinessEthicsPage';
+import { GovernanceMasteryPage } from './pages/programs/GovernanceMasteryPage';
+import { AI4StrategyPage } from './pages/programs/AI4StrategyPage';
+import { AI4WhomTrainingPage } from './pages/AI4WhomTrainingPage';
+import { AIMaturityGovernancePage } from './pages/AIMaturityGovernancePage';
+import { MarketResearchPage } from './pages/MarketResearchPage';
+import { PolicyAffairsPage } from './pages/PolicyAffairsPage';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { CookieConsent } from './CookieConsent';
 import { t, staticTranslations, contentTranslations } from '../utils/translations';
@@ -288,13 +296,29 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
   const renderPage = () => {
     switch (currentPath) {
       case '/services':
-        return <ServicesPage content={content} />;
+        return <ServicesPage content={content} language={language} />;
+      case '/services/ai-maturity-governance':
+        return <AIMaturityGovernancePage content={content} />;
+      case '/services/ai4whom-training':
+        return <AI4WhomTrainingPage content={content} />;
+      case '/services/market-research':
+        return <MarketResearchPage content={content} />;
+      case '/services/policy-affairs':
+        return <PolicyAffairsPage content={content} />;
+      case '/services/ai4everyone':
+        return <AI4EveryonePage content={content} />;
+      case '/services/ai4business-ethics-governance':
+        return <AI4BusinessEthicsPage content={content} />;
+      case '/services/governance-mastery':
+        return <GovernanceMasteryPage content={content} />;
+      case '/services/ai4strategy':
+        return <AI4StrategyPage content={content} />;
       case '/insights':
         return <InsightsPage content={content} />;
       case '/about':
-        return <AboutPage content={content} />;
+        return <AboutPage content={content} language={language} />;
       case '/connect':
-        return <ConnectPage content={content} />;
+        return <ConnectPage content={content} language={language} />;
       case '/privacy':
         return <PrivacyPolicyPage content={content} language={language} />;
       case '/cookies':
@@ -358,11 +382,10 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                   name: 'Services', 
                   path: '/services',
                   children: [
-                    { name: 'AI Strategy & Maturity', path: '/services#ai-strategy-maturity' },
-                    { name: 'AI Governance, Ethics & Literacy', path: '/services#ai-governance-ethics-literacy' },
-                    { name: 'Market & Policy Research', path: '/services#market-policy-research' },
-                    { name: 'Policy & Government Affairs', path: '/services#policy-government-affairs' },
-                    { name: 'Railway – AI Governance Framework', path: '/services#railway' },
+                    { name: 'AI Maturity & Governance Advisory', path: '/services/ai-maturity-governance' },
+                    { name: 'AI4Whom Ethics & Governance Training', path: '/services/ai4whom-training' },
+                    { name: 'Market & Policy Research', path: '/services/market-research' },
+                    { name: 'Policy & Government Affairs Consultancy', path: '/services/policy-affairs' },
                   ]
                 },
                 { 
@@ -439,11 +462,10 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                   name: 'Services', 
                   path: '/services',
                   children: [
-                    { name: 'AI Strategy & Maturity', path: '/services#ai-strategy-maturity' },
-                    { name: 'AI Governance, Ethics & Literacy', path: '/services#ai-governance-ethics-literacy' },
-                    { name: 'Market & Policy Research', path: '/services#market-policy-research' },
-                    { name: 'Policy & Government Affairs', path: '/services#policy-government-affairs' },
-                    { name: 'Railway – AI Governance Framework', path: '/services#railway' },
+                    { name: 'AI Maturity & Governance Advisory', path: '/services/ai-maturity-governance' },
+                    { name: 'AI4Whom Ethics & Governance Training', path: '/services/ai4whom-training' },
+                    { name: 'Market & Policy Research', path: '/services/market-research' },
+                    { name: 'Policy & Government Affairs Consultancy', path: '/services/policy-affairs' },
                   ]
                 },
                 { 
@@ -510,7 +532,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
         <div className="border-t" style={{ borderColor: '#E8E4DF80' }}>
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
             {/* Navigation Sections - Horizontal Layout */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 mb-16">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-12 mb-16">
               {/* Services */}
               <div>
                 <h4 className="font-serif text-sm font-medium mb-6 uppercase tracking-wider" style={{ color: content.colors.dark }}>
@@ -518,7 +540,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                 </h4>
                 <div className="space-y-3">
                   <button
-                    onClick={() => setCurrentPath('/services')}
+                    onClick={() => navigateTo('/services')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
@@ -527,66 +549,39 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/services')}
+                    onClick={() => navigateTo('/services/ai-maturity-governance')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
                     <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">
-                      AI Strategy
+                      AI Maturity & Governance
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/services')}
+                    onClick={() => navigateTo('/services/ai4whom-training')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
                     <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">
-                      AI Governance
+                      AI4Whom Training
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/services')}
+                    onClick={() => navigateTo('/services/market-research')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
                     <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">
-                      Market Research
+                      Market & Policy Research
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/services')}
+                    onClick={() => navigateTo('/services/policy-affairs')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
                     <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">
-                      Policy Advisory
-                    </span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Frameworks */}
-              <div>
-                <h4 className="font-serif text-sm font-medium mb-6 uppercase tracking-wider" style={{ color: content.colors.dark }}>
-                  Frameworks
-                </h4>
-                <div className="space-y-3">
-                  <button
-                    onClick={() => setCurrentPath('/services')}
-                    className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
-                    style={{ color: content.colors.dark }}
-                  >
-                    <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">
-                      Railway
-                    </span>
-                  </button>
-                  <button
-                    onClick={() => setCurrentPath('/services')}
-                    className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
-                    style={{ color: content.colors.dark }}
-                  >
-                    <span className="inline-block group-hover:translate-x-1 transition-transform duration-200">
-                      RAIL Loop
+                      Policy & Government Affairs
                     </span>
                   </button>
                 </div>
@@ -599,7 +594,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                 </h4>
                 <div className="space-y-3">
                   <button
-                    onClick={() => setCurrentPath('/insights')}
+                    onClick={() => navigateTo('/insights')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
@@ -608,7 +603,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/insights')}
+                    onClick={() => navigateTo('/insights')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
@@ -617,7 +612,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/insights')}
+                    onClick={() => navigateTo('/insights')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
@@ -626,7 +621,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/insights')}
+                    onClick={() => navigateTo('/insights')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
@@ -644,7 +639,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                 </h4>
                 <div className="space-y-3">
                   <button
-                    onClick={() => setCurrentPath('/about')}
+                    onClick={() => navigateTo('/about')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >
@@ -653,7 +648,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
                     </span>
                   </button>
                   <button
-                    onClick={() => setCurrentPath('/connect')}
+                    onClick={() => navigateTo('/connect')}
                     className="block text-sm font-sans text-left hover:text-[#184A5A] transition-colors duration-200 group"
                     style={{ color: content.colors.dark }}
                   >

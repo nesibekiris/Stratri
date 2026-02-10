@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import type { SiteContent } from '../../App';
+import type { SiteContent, Language } from '../../App';
 import { Mail, Linkedin } from 'lucide-react';
 import { ConnectInk } from '../visuals';
+import { t, contentTranslations } from '../../utils/translations';
 
 interface ConnectPageProps {
   content: SiteContent;
+  language: Language;
 }
 
-export function ConnectPage({ content }: ConnectPageProps) {
+export function ConnectPage({ content, language }: ConnectPageProps) {
+  const connectContent = contentTranslations.connect;
+  
   const [formData, setFormData] = useState({
     name: '',
     organization: '',
@@ -20,7 +24,7 @@ export function ConnectPage({ content }: ConnectPageProps) {
     e.preventDefault();
     // Form submission logic would go here
     console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you within 2-3 business days.');
+    alert(t(connectContent.successMessage, language));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

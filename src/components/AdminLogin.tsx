@@ -11,6 +11,9 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showResetForm, setShowResetForm] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSuccess, setResetSuccess] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +55,29 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     } catch (err: any) {
       console.error('Google login error:', err);
       setError('Failed to initiate Google login. Please try again.');
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const { data, error: resetError } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/fredo`
+      });
+
+      if (resetError) {
+        console.error('Password reset error:', resetError);
+        setError('Password reset failed. Please try again.');
+      } else {
+        setResetSuccess('Password reset email sent. Please check your inbox.');
+      }
+    } catch (err: any) {
+      console.error('Password reset error:', err);
+      setError('Failed to initiate password reset. Please try again.');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -205,6 +231,22 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
             >
               {isLoading ? 'Authenticating...' : 'Access Admin Panel'}
             </button>
+
+            {/* Forgot Password Link */}
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowResetForm(true);
+                  setError('');
+                  setResetSuccess('');
+                }}
+                className="text-sm font-sans hover:underline transition-colors"
+                style={{ color: '#184A5A' }}
+              >
+                Forgot password?
+              </button>
+            </div>
           </form>
 
           {/* Security Notice */}
@@ -220,6 +262,139 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           All login attempts are monitored and logged.
         </p>
       </div>
+
+      {/* Password Reset Modal */}
+      {showResetForm && (
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center px-4 z-50"
+          onClick={() => setShowResetForm(false)}
+        >
+          <div 
+            className="bg-white rounded-sm border p-8 max-w-md w-full shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+            style={{ borderColor: '#E8E4DF' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 
+              className="font-serif text-2xl font-medium mb-2"
+              style={{ color: '#1E2A45' }}
+            >
+              Reset Password
+            </h3>
+            <p 
+              className="font-sans text-sm mb-6"
+              style={{ color: '#1E2A45', opacity: 0.7 }}
+            >
+              Enter your email address and we'll send you a password reset link.
+            </p>
+
+            {/* Success Message */}
+            {resetSuccess && (
+              <div 
+                className="flex items-start gap-2 p-3 rounded-sm border mb-4"
+                style={{ 
+                  backgroundColor: 'rgba(34, 197, 94, 0.05)',
+                  borderColor: 'rgba(34, 197, 94, 0.2)'
+                }}
+              >
+                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: '#22c55e' }} />
+                <p className="text-sm font-sans" style={{ color: '#22c55e' }}>
+                  {resetSuccess}
+                </p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {error && (
+              <div 
+                className="flex items-start gap-2 p-3 rounded-sm border mb-4"
+                style={{ 
+                  backgroundColor: 'rgba(220, 38, 38, 0.05)',
+                  borderColor: 'rgba(220, 38, 38, 0.2)'
+                }}
+              >
+                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: '#dc2626' }} />
+                <p className="text-sm font-sans" style={{ color: '#dc2626' }}>
+                  {error}
+                </p>
+              </div>
+            )}
+
+            <div className="space-y-4">
+              {/* Email Input */}
+              <div>
+                <label 
+                  htmlFor="reset-email" 
+                  className="block font-sans text-sm font-medium mb-2"
+                  style={{ color: '#1E2A45' }}
+                >
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail 
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                    style={{ color: '#9FB7C8' }}
+                  />
+                  <input
+                    id="reset-email"
+                    type="email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="admin@example.com"
+                    disabled={isLoading}
+                    className="w-full pl-10 pr-4 py-3 border rounded-sm font-sans text-sm focus:outline-none focus:ring-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ 
+                      borderColor: '#E8E4DF',
+                      color: '#1E2A45'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#184A5A';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(24, 74, 90, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = '#E8E4DF';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowResetForm(false);
+                    setResetEmail('');
+                    setError('');
+                    setResetSuccess('');
+                  }}
+                  className="flex-1 py-3 rounded-sm font-sans font-medium text-sm border transition-colors"
+                  style={{ 
+                    borderColor: '#E8E4DF',
+                    color: '#1E2A45'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetPassword}
+                  disabled={isLoading || !resetEmail}
+                  className="flex-1 py-3 rounded-sm font-sans font-medium text-sm shadow-[0_2px_4px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 hover:shadow-[0_3px_6px_rgba(0,0,0,0.12)] active:translate-y-0 active:shadow-[0_1px_2px_rgba(0,0,0,0.1)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                  style={{ 
+                    backgroundColor: '#184A5A',
+                    color: '#FEFBF8',
+                    borderWidth: '1px',
+                    borderColor: '#135268'
+                  }}
+                >
+                  {isLoading ? 'Sending...' : 'Send Reset Link'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

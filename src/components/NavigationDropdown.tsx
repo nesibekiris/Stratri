@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface NavItem {
   name: string;
@@ -18,11 +18,54 @@ interface NavigationDropdownProps {
 
 export function NavigationDropdown({ item, isActive, onNavigate, colors }: NavigationDropdownProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isDropdownHovered, setIsDropdownHovered] = useState(false);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Keep dropdown open if either trigger or dropdown is hovered
+  const shouldShowDropdown = isHovered || isDropdownHovered;
+
+  const handleMouseEnter = () => {
+    // Clear any pending close timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Add a small delay before closing to allow mouse travel to dropdown
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 150); // 150ms delay for safe mouse travel
+  };
+
+  const handleDropdownMouseEnter = () => {
+    // Clear any pending close timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsDropdownHovered(true);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    setIsDropdownHovered(false);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div 
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className="relative"
     >
       <button
@@ -41,11 +84,24 @@ export function NavigationDropdown({ item, isActive, onNavigate, colors }: Navig
         {item.name}
       </button>
       
-      {/* Dropdown Panel */}
-      {item.children && isHovered && (
+      {/* Safe zone bridge - invisible area between trigger and dropdown */}
+      {item.children && shouldShowDropdown && (
         <div 
-          className="absolute top-full left-0 mt-2 min-w-[280px] bg-white border rounded-sm shadow-lg py-3 px-4"
-          style={{ borderColor: '#E8E4DF' }}
+          className="absolute top-full left-0 h-2 w-full pointer-events-none"
+          style={{ zIndex: 40 }}
+        />
+      )}
+      
+      {/* Dropdown Panel */}
+      {item.children && shouldShowDropdown && (
+        <div 
+          onMouseEnter={handleDropdownMouseEnter}
+          onMouseLeave={handleDropdownMouseLeave}
+          className="absolute top-full left-0 mt-2 min-w-[280px] bg-white border rounded-sm shadow-lg py-3 px-4 z-50"
+          style={{ 
+            borderColor: '#E8E4DF',
+            animation: 'fadeIn 150ms ease-out'
+          }}
         >
           {item.children.map((child, childIndex) => (
             <button
@@ -53,6 +109,7 @@ export function NavigationDropdown({ item, isActive, onNavigate, colors }: Navig
               onClick={() => {
                 onNavigate(child.path);
                 setIsHovered(false);
+                setIsDropdownHovered(false);
               }}
               className="block w-full text-left py-2 px-3 text-sm font-sans transition-colors duration-150 rounded-sm"
               style={{
@@ -71,6 +128,19 @@ export function NavigationDropdown({ item, isActive, onNavigate, colors }: Navig
           ))}
         </div>
       )}
+      
+      <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
