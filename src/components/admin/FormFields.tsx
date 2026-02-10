@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Upload, X, ExternalLink, Image as ImageIcon } from 'lucide-react';
 

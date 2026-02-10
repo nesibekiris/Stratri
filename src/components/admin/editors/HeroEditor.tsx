@@ -1,3 +1,5 @@
+'use client';
+
 import { Image, Link } from 'lucide-react';
 import { InputField, TextareaField, ImageUploadField } from '../FormFields';
 

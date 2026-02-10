@@ -10,7 +10,7 @@ import {
   PolicyGovernmentAffairsIcon 
 } from '../Icons';
 import { CrossroadsInk } from '../visuals';
-import railwayDiagram from '@/assets/c8df7dee889ee4da0a657a14d5be51387e4d9474.png';
+const railwayDiagram = '/c8df7dee889ee4da0a657a14d5be51387e4d9474.png';
 
 interface ServicesPageProps {
   content: SiteContent;

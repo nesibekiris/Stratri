@@ -1,3 +1,5 @@
+'use client';
+
 import { AlertCircle, XCircle, Info, CheckCircle } from 'lucide-react';
 
 interface ErrorMessageProps {

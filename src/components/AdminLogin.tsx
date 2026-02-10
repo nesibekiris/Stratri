@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Lock, Mail, AlertCircle } from 'lucide-react';
 import { supabase } from '../utils/supabase/client';

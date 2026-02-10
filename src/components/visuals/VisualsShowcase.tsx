@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { TechnologyInk } from './TechnologyInk';
 import { PolicyInk } from './PolicyInk';

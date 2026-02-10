@@ -1,3 +1,5 @@
+'use client';
+
 import { Plus, Trash2, Menu } from 'lucide-react';
 import { InputField } from '../FormFields';
 

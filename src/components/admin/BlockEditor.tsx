@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { ChevronUp, ChevronDown, Eye, EyeOff, Copy, Trash2, GripVertical } from 'lucide-react';
 import { ContentBlock, blockLabels } from '../../types/blocks';

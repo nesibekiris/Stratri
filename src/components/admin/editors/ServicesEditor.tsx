@@ -1,3 +1,5 @@
+'use client';
+
 import { Plus, Trash2, Briefcase } from 'lucide-react';
 import { InputField, TextareaField, ImageUploadField } from '../FormFields';
 

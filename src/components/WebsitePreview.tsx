@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Menu, X, BookOpen, Linkedin, Mail } from 'lucide-react';
 import type { SiteContent } from '@/types/content';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Globe } from 'lucide-react';
 
 interface LanguageSwitcherProps {

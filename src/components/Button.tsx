@@ -2,15 +2,16 @@
 
 import { ReactNode } from 'react';
 
-interface ButtonProps {
+export interface ButtonProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'outline';
   href?: string;
   onClick?: () => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export function Button({ children, variant = 'primary', href, onClick, className = '' }: ButtonProps) {
+export function Button({ children, variant = 'primary', href, onClick, className = '', style }: ButtonProps) {
   const baseStyles = 'touch-target inline-block px-8 py-3.5 font-sans font-medium text-sm transition-all duration-200 rounded-sm cursor-pointer select-none focus-visible-ring';
 
   const variants = {
@@ -34,14 +35,14 @@ export function Button({ children, variant = 'primary', href, onClick, className
 
   if (href) {
     return (
-      <a href={href} className={styles} onClick={handleClick}>
+      <a href={href} className={styles} onClick={handleClick} style={style}>
         {children}
       </a>
     );
   }
 
   return (
-    <button onClick={onClick} className={styles}>
+    <button onClick={onClick} className={styles} style={style}>
       {children}
     </button>
   );
