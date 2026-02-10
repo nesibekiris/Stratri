@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import Link from 'next/link';
 
 export interface ButtonProps {
   children: ReactNode;
@@ -22,22 +23,31 @@ export function Button({ children, variant = 'primary', href, onClick, className
 
   const styles = `${baseStyles} ${variants[variant]} ${className}`;
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:')) {
-      // Internal route - prevent default and use pushState
-      e.preventDefault();
-      window.history.pushState({}, '', href);
-      window.dispatchEvent(new PopStateEvent('popstate'));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    // For external links, hash links, and mailto links, let default behavior happen
-  };
-
   if (href) {
+    const isExternal = href.startsWith('http') || href.startsWith('mailto:');
+    const isHash = href.startsWith('#');
+
+    if (isExternal) {
+      return (
+        <a href={href} className={styles} style={style} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      );
+    }
+
+    if (isHash) {
+      return (
+        <a href={href} className={styles} style={style}>
+          {children}
+        </a>
+      );
+    }
+
+    // Internal route - use Next.js Link for client-side navigation
     return (
-      <a href={href} className={styles} onClick={handleClick} style={style}>
+      <Link href={href} className={styles} style={style}>
         {children}
-      </a>
+      </Link>
     );
   }
 

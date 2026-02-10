@@ -113,16 +113,16 @@ export function CookieConsent({ colors = {
           >
             We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. 
             You can choose which cookies to accept. Read our{' '}
-            <a 
-              href="/privacy" 
+            <a
+              href="/privacy-policy"
               className="underline hover:no-underline font-medium"
               style={{ color: colors.accent }}
             >
               Privacy Policy
             </a>
             {' '}and{' '}
-            <a 
-              href="/cookies" 
+            <a
+              href="/cookie-policy"
               className="underline hover:no-underline font-medium"
               style={{ color: colors.accent }}
             >
