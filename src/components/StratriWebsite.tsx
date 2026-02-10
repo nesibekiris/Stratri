@@ -7,7 +7,10 @@ import { InsightsPage } from './pages/InsightsPage';
 import { AboutPage } from './pages/AboutPage';
 import { ConnectPage } from './pages/ConnectPage';
 import { HomePage } from './pages/HomePage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { CookiePolicyPage } from './pages/CookiePolicyPage';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { CookieConsent } from './CookieConsent';
 import { t, staticTranslations, contentTranslations } from '../utils/translations';
 import { StickyPageNav, defaultHomeSections } from './StickyPageNav';
 import { GovernanceSuiteGrid, type GovernanceSuiteItem } from './GovernanceSuiteCard';
@@ -292,6 +295,10 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
         return <AboutPage content={content} />;
       case '/connect':
         return <ConnectPage content={content} />;
+      case '/privacy':
+        return <PrivacyPolicyPage content={content} language={language} />;
+      case '/cookies':
+        return <CookiePolicyPage content={content} language={language} />;
       default:
         return (
           <HomePage 
@@ -314,6 +321,11 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
           --stratri-light: ${content.colors.light};
         }
       `}</style>
+
+      {/* Skip to Content Link - Accessibility */}
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
 
       {/* Navigation */}
       <nav 
@@ -489,7 +501,7 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
         )}
       </nav>
 
-      <main>
+      <main id="main-content">
         {renderPage()}
       </main>
 
@@ -684,13 +696,38 @@ export function StratriWebsite({ content, language, onLanguageChange }: StratriW
 
           <div className="border-t" style={{ borderColor: '#E8E4DF80' }}>
             <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
-              <p className="text-xs font-sans text-center" style={{ color: `${content.colors.dark}80` }}>
-                © {currentYear} {content.settings.siteName}. All rights reserved.
-              </p>
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p className="text-xs font-sans" style={{ color: `${content.colors.dark}80` }}>
+                  © {currentYear} {content.settings.siteName}. All rights reserved.
+                </p>
+                <div className="flex items-center gap-6 text-xs font-sans">
+                  <button
+                    onClick={() => navigateTo('/privacy')}
+                    className="transition-colors"
+                    style={{ color: `${content.colors.dark}80` }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = content.colors.accent}
+                    onMouseLeave={(e) => e.currentTarget.style.color = `${content.colors.dark}80`}
+                  >
+                    Privacy Policy
+                  </button>
+                  <button
+                    onClick={() => navigateTo('/cookies')}
+                    className="transition-colors"
+                    style={{ color: `${content.colors.dark}80` }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = content.colors.accent}
+                    onMouseLeave={(e) => e.currentTarget.style.color = `${content.colors.dark}80`}
+                  >
+                    Cookie Policy
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Cookie Consent Banner */}
+      <CookieConsent colors={content.colors} />
     </div>
   );
 }
